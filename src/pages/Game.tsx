@@ -767,7 +767,9 @@ function spawnPad(){
 setInterval(()=>{if(gameRunning)wallet+=income;},1000);
 window.addEventListener('keydown',e=>{if(e.key===' ')e.preventDefault();KEYS[e.key.toLowerCase()]=true;});
 window.addEventListener('keyup',e=>{KEYS[e.key.toLowerCase()]=false;});
-window.addEventListener('resize',()=>{if(!cam||!ren)return;cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();ren.setSize(innerWidth,innerHeight);});
+window.addEventListener('resize',()=>{if(!cam||!ren)return;var vw=Math.max(innerWidth||0,document.documentElement.clientWidth||0,320);var vh=Math.max(innerHeight||0,document.documentElement.clientHeight||0,240);cam.aspect=vw/vh;cam.updateProjectionMatrix();ren.setSize(vw,vh);});
+// Re-check size shortly after init in case iframe wasn't laid out yet
+setTimeout(()=>{if(!cam||!ren)return;var vw=Math.max(innerWidth||0,document.documentElement.clientWidth||0,320);var vh=Math.max(innerHeight||0,document.documentElement.clientHeight||0,240);cam.aspect=vw/vh;cam.updateProjectionMatrix();ren.setSize(vw,vh);},200);
 <\/script>
 </body>
 </html>`;
