@@ -823,7 +823,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
 
   // Return engine ref for save/cleanup
   return {
-    wallet, income, player, STEPS,
+    player, STEPS,
     get wallet() { return wallet; },
     get income() { return income; },
     destroy() {
