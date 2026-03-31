@@ -402,11 +402,13 @@ function initThree(doLoad){
     scene=new THREE.Scene();
     scene.background=new THREE.Color(0x5ea4c0);
     scene.fog=new THREE.FogExp2(0x84b4cc,0.0008);
-    cam=new THREE.PerspectiveCamera(58,innerWidth/innerHeight,0.1,4000);
+    var vw=Math.max(innerWidth||0,document.documentElement.clientWidth||0,window.outerWidth||320);
+    var vh=Math.max(innerHeight||0,document.documentElement.clientHeight||0,window.outerHeight||240);
+    cam=new THREE.PerspectiveCamera(58,vw/vh,0.1,4000);
     cam.position.set(0,22,50);cam.lookAt(0,0,0);
     ren=new THREE.WebGLRenderer({antialias:true});
     ren.setPixelRatio(Math.min(devicePixelRatio,2));
-    ren.setSize(innerWidth,innerHeight);
+    ren.setSize(vw,vh);
     ren.shadowMap.enabled=true;
     ren.shadowMap.type=THREE.PCFSoftShadowMap;
     ren.toneMapping=THREE.ACESFilmicToneMapping;
