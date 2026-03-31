@@ -14,7 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      game_saves: {
+        Row: {
+          buildings: number[]
+          created_at: string
+          id: string
+          income: number
+          player_x: number
+          player_z: number
+          updated_at: string
+          user_id: string
+          wallet: number
+        }
+        Insert: {
+          buildings?: number[]
+          created_at?: string
+          id?: string
+          income?: number
+          player_x?: number
+          player_z?: number
+          updated_at?: string
+          user_id: string
+          wallet?: number
+        }
+        Update: {
+          buildings?: number[]
+          created_at?: string
+          id?: string
+          income?: number
+          player_x?: number
+          player_z?: number
+          updated_at?: string
+          user_id?: string
+          wallet?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
