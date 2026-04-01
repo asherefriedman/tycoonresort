@@ -711,7 +711,8 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
       const parent = STEPS.find((x: any) => x.id === next.need);
       const px = parent ? parent.x + (next.ox || 0) : next.x + (next.ox || 0);
       const pz = parent ? parent.z + (next.oz || 0) : next.z + (next.oz || 0);
-      const py = (parent && parent.type !== 'floor' && parent.h > 0.5 ? parent.h : 0) + PAD_FLOAT + 4;
+      const baseY = getBaseY(next);
+      const py = baseY + (parent && parent.type !== 'floor' && parent.h > 0.5 ? parent.h : 0) + PAD_FLOAT;
       const pad = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, 0.22, 32), new THREE.MeshBasicMaterial({ color: 0xffe040, transparent: true, opacity: 0.9 }));
       pad.position.set(px, py, pz); (pad as any).stepData = next;
       scene.add(pad); padList.push(pad); activePad = pad;
