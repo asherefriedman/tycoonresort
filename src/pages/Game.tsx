@@ -683,7 +683,9 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
       mesh.position.y = st.h / 2; mesh.castShadow = true; mesh.receiveShadow = true; grp.add(mesh);
       if (st.type !== 'floor') addColl(st.x, st.z, st.w, st.h, st.d);
     }
-    grp.position.set(st.x, 0, st.z); grp.scale.setScalar(0.01);
+    const baseY = getBaseY(st);
+    currentBaseY = baseY;
+    grp.position.set(st.x, baseY, st.z); grp.scale.setScalar(0.01);
     scene.add(grp); st.grp = grp; placed.push({ grp, step: st });
     if (st.type === 'wall' && (st.label.includes('Lobby Back') || st.label.includes('Suite Back') || st.label.includes('Restaurant Wall S') || st.label.includes('Lodge Structure'))) {
       const halfW = st.w > st.d ? st.w / 2 - 1 : 30, halfD = st.w > st.d ? 30 : st.d / 2 - 1;
