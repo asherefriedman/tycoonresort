@@ -412,7 +412,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   function adjColor(hex: number, f: number) { return (Math.min(255, Math.floor(((hex >> 16) & 0xff) * f)) << 16) | (Math.min(255, Math.floor(((hex >> 8) & 0xff) * f)) << 8) | Math.min(255, Math.floor((hex & 0xff) * f)); }
 
   function addColl(wx: number, wz: number, ww: number, wh: number, wd: number, wy = 0) {
-    colls.push({ x0: wx - ww / 2, x1: wx + ww / 2, y0: wy, y1: wy + wh, z0: wz - wd / 2, z1: wz + wd / 2 });
+    colls.push({ x0: wx - ww / 2, x1: wx + ww / 2, y0: currentBaseY + wy, y1: currentBaseY + wy + wh, z0: wz - wd / 2, z1: wz + wd / 2 });
   }
   function testAABB(px: number, py: number, pz: number) {
     for (const c of colls) { if (px + PLAYER_R > c.x0 && px - PLAYER_R < c.x1 && py + PLAYER_H > c.y0 && py < c.y1 && pz + PLAYER_R > c.z0 && pz - PLAYER_R < c.z1) return true; }
