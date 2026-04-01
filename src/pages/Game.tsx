@@ -248,6 +248,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   let wallet = 500, income = 0;
   let vspeed = 0, hspeed = 0, jumping = false;
   let gameRunning = true, nearPad = false;
+  let currentBaseY = 0;
   let activePad: any = null;
   let scene: THREE.Scene, cam: THREE.PerspectiveCamera, ren: THREE.WebGLRenderer, clock: THREE.Clock;
   let player: THREE.Group;
@@ -411,7 +412,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   function adjColor(hex: number, f: number) { return (Math.min(255, Math.floor(((hex >> 16) & 0xff) * f)) << 16) | (Math.min(255, Math.floor(((hex >> 8) & 0xff) * f)) << 8) | Math.min(255, Math.floor((hex & 0xff) * f)); }
 
   function addColl(wx: number, wz: number, ww: number, wh: number, wd: number, wy = 0) {
-    colls.push({ x0: wx - ww / 2, x1: wx + ww / 2, y0: wy, y1: wy + wh, z0: wz - wd / 2, z1: wz + wd / 2 });
+    colls.push({ x0: wx - ww / 2, x1: wx + ww / 2, y0: currentBaseY + wy, y1: currentBaseY + wy + wh, z0: wz - wd / 2, z1: wz + wd / 2 });
   }
   function testAABB(px: number, py: number, pz: number) {
     for (const c of colls) { if (px + PLAYER_R > c.x0 && px - PLAYER_R < c.x1 && py + PLAYER_H > c.y0 && py < c.y1 && pz + PLAYER_R > c.z0 && pz - PLAYER_R < c.z1) return true; }
@@ -456,11 +457,26 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
     }
     for (const st of STEPS) {
       if (!st.bought) continue;
-      if (st.type === 'floor' && (st.label.includes('Bridge') || st.label.includes('Span'))) {
-        if (x > st.x - st.w / 2 && x < st.x + st.w / 2 && z > st.z - st.d / 2 && z < st.z + st.d / 2) return 1.2;
+      if (st.type === 'floor' && (st.label.includes('Bridge') || st.label.includes('Span') || st.label.includes('Deck'))) {
+        if (x > st.x - st.w / 2 && x < st.x + st.w / 2 && z > st.z - st.d / 2 && z < st.z + st.d / 2) return 4;
       }
     }
     return -2;
+  }
+
+  function getBaseY(st: any): number {
+    // Bridge/span floors: align top with island height
+    if (st.type === 'floor' && (st.label.includes('Bridge') || st.label.includes('Span') || st.label.includes('Deck'))) {
+      return 4 - st.h;
+    }
+    // Bridge non-floor objects (rails, towers, beams)
+    if (st.label.includes('Bridge')) return 4;
+    // Check if on an island
+    for (const isl of ISLANDS) {
+      const dx = st.x - isl.cx, dz = st.z - isl.cz;
+      if (Math.sqrt(dx * dx + dz * dz) < isl.r + 20) return isl.h;
+    }
+    return 0;
   }
 
   function buildPlayer() {
@@ -502,11 +518,11 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   function buildIslands() {
     ISLANDS.forEach(isl => {
       const body = new THREE.Mesh(new THREE.CylinderGeometry(isl.r, isl.r + 8, isl.h, 64), new THREE.MeshStandardMaterial({ color: isl.color, roughness: 0.92 }));
-      body.position.set(isl.cx, isl.h / 2 - 1.5, isl.cz); body.receiveShadow = true; body.castShadow = true; scene.add(body);
+      body.position.set(isl.cx, isl.h / 2, isl.cz); body.receiveShadow = true; body.castShadow = true; scene.add(body);
       const beach = new THREE.Mesh(new THREE.CylinderGeometry(isl.r + 12, isl.r + 16, 1, 64), new THREE.MeshStandardMaterial({ color: 0xd4c090, roughness: 0.95 }));
       beach.position.set(isl.cx, -0.5, isl.cz); beach.receiveShadow = true; scene.add(beach);
       const cap = new THREE.Mesh(new THREE.CylinderGeometry(isl.r, isl.r, 0.4, 64), new THREE.MeshStandardMaterial({ color: 0x5aa050, roughness: 0.9 }));
-      cap.position.set(isl.cx, isl.h / 2 + 0.7, isl.cz); cap.receiveShadow = true; scene.add(cap);
+      cap.position.set(isl.cx, isl.h - 0.2, isl.cz); cap.receiveShadow = true; scene.add(cap);
       if (isl.id === 'mountain') buildMountain(isl.cx, isl.cz);
       scatterTrees(isl);
     });
@@ -667,7 +683,9 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
       mesh.position.y = st.h / 2; mesh.castShadow = true; mesh.receiveShadow = true; grp.add(mesh);
       if (st.type !== 'floor') addColl(st.x, st.z, st.w, st.h, st.d);
     }
-    grp.position.set(st.x, 0, st.z); grp.scale.setScalar(0.01);
+    const baseY = getBaseY(st);
+    currentBaseY = baseY;
+    grp.position.set(st.x, baseY, st.z); grp.scale.setScalar(0.01);
     scene.add(grp); st.grp = grp; placed.push({ grp, step: st });
     if (st.type === 'wall' && (st.label.includes('Lobby Back') || st.label.includes('Suite Back') || st.label.includes('Restaurant Wall S') || st.label.includes('Lodge Structure'))) {
       const halfW = st.w > st.d ? st.w / 2 - 1 : 30, halfD = st.w > st.d ? 30 : st.d / 2 - 1;
@@ -693,7 +711,8 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
       const parent = STEPS.find((x: any) => x.id === next.need);
       const px = parent ? parent.x + (next.ox || 0) : next.x + (next.ox || 0);
       const pz = parent ? parent.z + (next.oz || 0) : next.z + (next.oz || 0);
-      const py = (parent && parent.type !== 'floor' && parent.h > 0.5 ? parent.h : 0) + PAD_FLOAT + 4;
+      const baseY = getBaseY(next);
+      const py = baseY + (parent && parent.type !== 'floor' && parent.h > 0.5 ? parent.h : 0) + PAD_FLOAT;
       const pad = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, 0.22, 32), new THREE.MeshBasicMaterial({ color: 0xffe040, transparent: true, opacity: 0.9 }));
       pad.position.set(px, py, pz); (pad as any).stepData = next;
       scene.add(pad); padList.push(pad); activePad = pad;
