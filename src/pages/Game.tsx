@@ -518,11 +518,11 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   function buildIslands() {
     ISLANDS.forEach(isl => {
       const body = new THREE.Mesh(new THREE.CylinderGeometry(isl.r, isl.r + 8, isl.h, 64), new THREE.MeshStandardMaterial({ color: isl.color, roughness: 0.92 }));
-      body.position.set(isl.cx, isl.h / 2 - 1.5, isl.cz); body.receiveShadow = true; body.castShadow = true; scene.add(body);
+      body.position.set(isl.cx, isl.h / 2, isl.cz); body.receiveShadow = true; body.castShadow = true; scene.add(body);
       const beach = new THREE.Mesh(new THREE.CylinderGeometry(isl.r + 12, isl.r + 16, 1, 64), new THREE.MeshStandardMaterial({ color: 0xd4c090, roughness: 0.95 }));
       beach.position.set(isl.cx, -0.5, isl.cz); beach.receiveShadow = true; scene.add(beach);
       const cap = new THREE.Mesh(new THREE.CylinderGeometry(isl.r, isl.r, 0.4, 64), new THREE.MeshStandardMaterial({ color: 0x5aa050, roughness: 0.9 }));
-      cap.position.set(isl.cx, isl.h / 2 + 0.7, isl.cz); cap.receiveShadow = true; scene.add(cap);
+      cap.position.set(isl.cx, isl.h - 0.2, isl.cz); cap.receiveShadow = true; scene.add(cap);
       if (isl.id === 'mountain') buildMountain(isl.cx, isl.cz);
       scatterTrees(isl);
     });
