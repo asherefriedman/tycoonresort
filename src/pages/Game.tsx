@@ -248,6 +248,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   let wallet = 500, income = 0;
   let vspeed = 0, hspeed = 0, jumping = false;
   let gameRunning = true, nearPad = false;
+  let currentBaseY = 0;
   let activePad: any = null;
   let scene: THREE.Scene, cam: THREE.PerspectiveCamera, ren: THREE.WebGLRenderer, clock: THREE.Clock;
   let player: THREE.Group;
