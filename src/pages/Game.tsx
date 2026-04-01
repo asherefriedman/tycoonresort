@@ -457,11 +457,26 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
     }
     for (const st of STEPS) {
       if (!st.bought) continue;
-      if (st.type === 'floor' && (st.label.includes('Bridge') || st.label.includes('Span'))) {
-        if (x > st.x - st.w / 2 && x < st.x + st.w / 2 && z > st.z - st.d / 2 && z < st.z + st.d / 2) return 1.2;
+      if (st.type === 'floor' && (st.label.includes('Bridge') || st.label.includes('Span') || st.label.includes('Deck'))) {
+        if (x > st.x - st.w / 2 && x < st.x + st.w / 2 && z > st.z - st.d / 2 && z < st.z + st.d / 2) return 4;
       }
     }
     return -2;
+  }
+
+  function getBaseY(st: any): number {
+    // Bridge/span floors: align top with island height
+    if (st.type === 'floor' && (st.label.includes('Bridge') || st.label.includes('Span') || st.label.includes('Deck'))) {
+      return 4 - st.h;
+    }
+    // Bridge non-floor objects (rails, towers, beams)
+    if (st.label.includes('Bridge')) return 4;
+    // Check if on an island
+    for (const isl of ISLANDS) {
+      const dx = st.x - isl.cx, dz = st.z - isl.cz;
+      if (Math.sqrt(dx * dx + dz * dz) < isl.r + 20) return isl.h;
+    }
+    return 0;
   }
 
   function buildPlayer() {
