@@ -609,8 +609,8 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
     if (aboveH > 0.05) {
       const lm = new THREE.Mesh(isZ ? new THREE.BoxGeometry(dw, aboveH, thk) : new THREE.BoxGeometry(thk, aboveH, dw), mat);
       lm.position.set(0, dh + aboveH / 2, 0); lm.castShadow = true; lm.receiveShadow = true; grp.add(lm);
-      if (isZ) colls.push({ x0: st.x - dw / 2, x1: st.x + dw / 2, y0: dh, y1: H, z0: st.z - thk / 2, z1: st.z + thk / 2 });
-      else colls.push({ x0: st.x - thk / 2, x1: st.x + thk / 2, y0: dh, y1: H, z0: st.z - dw / 2, z1: st.z + dw / 2 });
+      if (isZ) colls.push({ x0: st.x - dw / 2, x1: st.x + dw / 2, y0: currentBaseY + dh, y1: currentBaseY + H, z0: st.z - thk / 2, z1: st.z + thk / 2 });
+      else colls.push({ x0: st.x - thk / 2, x1: st.x + thk / 2, y0: currentBaseY + dh, y1: currentBaseY + H, z0: st.z - dw / 2, z1: st.z + dw / 2 });
     }
     const fm = M.brass;
     const mkf = (x: number, y: number, z: number, fw: number, fh: number, fd: number) => { const m = new THREE.Mesh(new THREE.BoxGeometry(fw, fh, fd), fm); m.position.set(x, y, z); grp.add(m); };
