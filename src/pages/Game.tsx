@@ -443,7 +443,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
           insideRoom = r.label;
           ui.setRoomLabel(r.label);
         }
-        camTargetDist = 14; camTargetH = 10; return;
+        camTargetDist = 10; camTargetH = 5; return;
       }
     }
     if (insideRoom !== '') insideRoom = '';
