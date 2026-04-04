@@ -737,7 +737,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   const vw = container.clientWidth || window.innerWidth || 320;
   const vh = container.clientHeight || window.innerHeight || 240;
 
-  cam = new THREE.PerspectiveCamera(58, vw / vh, 0.1, 4000);
+  cam = new THREE.PerspectiveCamera(58, vw / vh, 0.5, 4000);
   cam.position.set(0, 22, 50); cam.lookAt(0, 0, 0);
 
   ren = new THREE.WebGLRenderer({ antialias: true });
