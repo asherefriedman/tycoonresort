@@ -685,6 +685,8 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
       const mesh = new THREE.Mesh(new THREE.BoxGeometry(st.w, st.h, st.d), mat);
       mesh.position.y = st.h / 2; mesh.castShadow = true; mesh.receiveShadow = true; grp.add(mesh);
       if (st.type !== 'floor') addColl(st.x, st.z, st.w, st.h, st.d);
+      // Offset decorative floor layers up slightly to prevent z-fighting
+      if (st.type === 'floor' && st.h < 0.5) mesh.position.y = st.h / 2 + 0.05;
     }
     grp.position.set(st.x, baseY, st.z); grp.scale.setScalar(0.01);
     scene.add(grp); st.grp = grp; placed.push({ grp, step: st });
