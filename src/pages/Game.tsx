@@ -609,8 +609,8 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
     if (aboveH > 0.05) {
       const lm = new THREE.Mesh(isZ ? new THREE.BoxGeometry(dw, aboveH, thk) : new THREE.BoxGeometry(thk, aboveH, dw), mat);
       lm.position.set(0, dh + aboveH / 2, 0); lm.castShadow = true; lm.receiveShadow = true; grp.add(lm);
-      if (isZ) colls.push({ x0: st.x - dw / 2, x1: st.x + dw / 2, y0: dh, y1: H, z0: st.z - thk / 2, z1: st.z + thk / 2 });
-      else colls.push({ x0: st.x - thk / 2, x1: st.x + thk / 2, y0: dh, y1: H, z0: st.z - dw / 2, z1: st.z + dw / 2 });
+      if (isZ) colls.push({ x0: st.x - dw / 2, x1: st.x + dw / 2, y0: currentBaseY + dh, y1: currentBaseY + H, z0: st.z - thk / 2, z1: st.z + thk / 2 });
+      else colls.push({ x0: st.x - thk / 2, x1: st.x + thk / 2, y0: currentBaseY + dh, y1: currentBaseY + H, z0: st.z - dw / 2, z1: st.z + dw / 2 });
     }
     const fm = M.brass;
     const mkf = (x: number, y: number, z: number, fw: number, fh: number, fd: number) => { const m = new THREE.Mesh(new THREE.BoxGeometry(fw, fh, fd), fm); m.position.set(x, y, z); grp.add(m); };
@@ -685,6 +685,8 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
       const mesh = new THREE.Mesh(new THREE.BoxGeometry(st.w, st.h, st.d), mat);
       mesh.position.y = st.h / 2; mesh.castShadow = true; mesh.receiveShadow = true; grp.add(mesh);
       if (st.type !== 'floor') addColl(st.x, st.z, st.w, st.h, st.d);
+      // Offset decorative floor layers up slightly to prevent z-fighting
+      if (st.type === 'floor' && st.h < 0.5) mesh.position.y = st.h / 2 + 0.05;
     }
     grp.position.set(st.x, baseY, st.z); grp.scale.setScalar(0.01);
     scene.add(grp); st.grp = grp; placed.push({ grp, step: st });
@@ -735,7 +737,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   const vw = container.clientWidth || window.innerWidth || 320;
   const vh = container.clientHeight || window.innerHeight || 240;
 
-  cam = new THREE.PerspectiveCamera(58, vw / vh, 0.1, 4000);
+  cam = new THREE.PerspectiveCamera(58, vw / vh, 0.5, 4000);
   cam.position.set(0, 22, 50); cam.lookAt(0, 0, 0);
 
   ren = new THREE.WebGLRenderer({ antialias: true });
