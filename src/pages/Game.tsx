@@ -675,6 +675,9 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   function placeObj(st: any) {
     const grp = new THREE.Group();
     const mat = getMat(st.mat);
+    // Set baseY BEFORE building so collision offsets are correct
+    const baseY = getBaseY(st);
+    currentBaseY = baseY;
     if (st.type === 'wall') { buildWall(grp, st); }
     else if (st.type === 'palm') { buildPalm(grp, st, mat); addColl(st.x, st.z, st.w * 0.55, st.h, st.d * 0.55); }
     else if (st.type === 'custom') { buildCustom(grp, st, mat); }
@@ -683,8 +686,6 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
       mesh.position.y = st.h / 2; mesh.castShadow = true; mesh.receiveShadow = true; grp.add(mesh);
       if (st.type !== 'floor') addColl(st.x, st.z, st.w, st.h, st.d);
     }
-    const baseY = getBaseY(st);
-    currentBaseY = baseY;
     grp.position.set(st.x, baseY, st.z); grp.scale.setScalar(0.01);
     scene.add(grp); st.grp = grp; placed.push({ grp, step: st });
     if (st.type === 'wall' && (st.label.includes('Lobby Back') || st.label.includes('Suite Back') || st.label.includes('Restaurant Wall S') || st.label.includes('Lodge Structure'))) {
