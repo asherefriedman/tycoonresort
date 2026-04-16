@@ -319,7 +319,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
     {id:25,x:0,z:-86,cost:600,label:'Suite Back Wall',type:'wall',mat:'plasterW',inc:25,w:36,h:7,d:0.5,need:24,ox:0,oz:8,dw:4,dh:6},
     {id:26,x:0,z:-74,cost:2500,label:'King Bed Frame',type:'custom',mat:'walnut',inc:80,w:14,h:1.2,d:16,need:25,ox:12,oz:0,custom:'bedframe'},
     {id:27,x:0,z:-74,cost:1200,label:'Premium Mattress',type:'custom',mat:'linen',inc:45,w:13,h:1.0,d:15,need:26,ox:12,oz:0,custom:'mattress'},
-    {id:28,x:0,z:-64,cost:350,label:'Down Pillows',type:'custom',mat:'ivory',inc:18,w:10,h:0.5,d:2.8,need:27,ox:12,oz:0,custom:'pillows'},
+    {id:28,x:0,z:-80,cost:350,label:'Down Pillows',type:'custom',mat:'ivory',inc:18,w:10,h:0.5,d:2.8,need:27,ox:12,oz:0,custom:'pillows'},
     {id:29,x:-11,z:-78,cost:800,label:'Nightstand Left',type:'custom',mat:'walnut',inc:25,w:3.5,h:1.6,d:3.5,need:28,ox:-10,oz:0,custom:'nightstand'},
     {id:30,x:11,z:-78,cost:800,label:'Nightstand Right',type:'custom',mat:'walnut',inc:25,w:3.5,h:1.6,d:3.5,need:29,ox:10,oz:0,custom:'nightstand'},
     {id:31,x:-11,z:-78,cost:450,label:'Lamp Left',type:'custom',mat:'brass',inc:15,w:1,h:2.8,d:1,need:30,ox:-10,oz:0,custom:'lamp'},
@@ -332,13 +332,13 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
     {id:38,x:-12,z:-80,cost:2000,label:'Double Vanity',type:'custom',mat:'walnut',inc:45,w:5,h:2.5,d:2,need:37,ox:-10,oz:0,custom:'vanity'},
     {id:39,x:-12,z:-84,cost:800,label:'Suite Toilet',type:'custom',mat:'white',inc:15,w:1.8,h:1.5,d:2,need:38,ox:-10,oz:0,custom:'toilet'},
     {id:40,x:0,z:-68,cost:1500,label:'Suite Planter',type:'palm',mat:'palmGn',inc:12,w:2,h:5,d:2,need:39,ox:14,oz:0},
-    {id:41,x:130,z:0,cost:8000,label:'East Bridge Deck',type:'floor',mat:'slate',inc:250,w:20,h:1.2,d:20,need:40,ox:12,oz:0},
-    {id:42,x:175,z:0,cost:12000,label:'East Bridge Span',type:'floor',mat:'slate',inc:450,w:20,h:1.2,d:70,need:41,ox:12,oz:0},
-    {id:43,x:160,z:0,cost:3500,label:'East Bridge Rail L',type:'block',mat:'stoneLight',inc:80,w:0.8,h:2.5,d:110,need:42,ox:-12,oz:0},
-    {id:44,x:160,z:0,cost:3500,label:'East Bridge Rail R',type:'block',mat:'stoneLight',inc:80,w:0.8,h:2.5,d:110,need:43,ox:12,oz:0},
-    {id:45,x:142,z:0,cost:10000,label:'East Bridge Tower L',type:'custom',mat:'stoneLight',inc:250,w:3.5,h:28,d:3.5,need:44,ox:-9,oz:0,custom:'pylon'},
-    {id:46,x:178,z:0,cost:10000,label:'East Bridge Tower R',type:'custom',mat:'stoneLight',inc:250,w:3.5,h:28,d:3.5,need:45,ox:9,oz:0,custom:'pylon'},
-    {id:47,x:160,z:0,cost:6000,label:'East Bridge Cross Beam',type:'block',mat:'stoneLight',inc:150,w:22,h:2,d:2,need:46,ox:-10,oz:0},
+    {id:41,x:128,z:0,cost:8000,label:'East Bridge Deck',type:'floor',mat:'slate',inc:250,w:20,h:1.2,d:20,need:40,ox:12,oz:0},
+    {id:42,x:155,z:0,cost:12000,label:'East Bridge Span',type:'floor',mat:'slate',inc:450,w:54,h:1.2,d:20,need:41,ox:12,oz:0},
+    {id:43,x:155,z:-10,cost:3500,label:'East Bridge Rail L',type:'block',mat:'stoneLight',inc:80,w:74,h:2.5,d:0.8,need:42,ox:0,oz:0},
+    {id:44,x:155,z:10,cost:3500,label:'East Bridge Rail R',type:'block',mat:'stoneLight',inc:80,w:74,h:2.5,d:0.8,need:43,ox:0,oz:0},
+    {id:45,x:135,z:0,cost:10000,label:'East Bridge Tower L',type:'custom',mat:'stoneLight',inc:250,w:3.5,h:28,d:3.5,need:44,ox:-9,oz:0,custom:'pylon'},
+    {id:46,x:175,z:0,cost:10000,label:'East Bridge Tower R',type:'custom',mat:'stoneLight',inc:250,w:3.5,h:28,d:3.5,need:45,ox:9,oz:0,custom:'pylon'},
+    {id:47,x:155,z:0,cost:6000,label:'East Bridge Cross Beam',type:'block',mat:'stoneLight',inc:150,w:3,h:2,d:22,need:46,ox:0,oz:0},
     {id:48,x:260,z:0,cost:15000,label:'Pool Foundation',type:'floor',mat:'concrete',inc:500,w:60,h:0.7,d:60,need:47,ox:0,oz:36},
     {id:49,x:260,z:0,cost:3000,label:'Pool Terrace Floor',type:'floor',mat:'marble',inc:100,w:58,h:0.22,d:58,need:48,ox:0,oz:35},
     {id:50,x:260,z:8,cost:18000,label:'Infinity Pool',type:'custom',mat:'poolTile',inc:650,w:30,h:1.2,d:16,need:49,ox:0,oz:-12,custom:'pool'},
@@ -355,13 +355,13 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
     {id:61,x:273,z:-10,cost:2000,label:'Pool Palm B',type:'palm',mat:'palmGn',inc:30,w:2,h:7,d:2,need:60,ox:6,oz:0},
     {id:62,x:247,z:28,cost:2000,label:'Pool Palm C',type:'palm',mat:'palmGn',inc:30,w:2,h:7,d:2,need:61,ox:-6,oz:0},
     {id:63,x:273,z:28,cost:2000,label:'Pool Palm D',type:'palm',mat:'palmGn',inc:30,w:2,h:7,d:2,need:62,ox:6,oz:0},
-    {id:64,x:-130,z:0,cost:8000,label:'West Bridge Deck',type:'floor',mat:'slate',inc:250,w:20,h:1.2,d:20,need:63,ox:-12,oz:0},
-    {id:65,x:-175,z:0,cost:12000,label:'West Bridge Span',type:'floor',mat:'slate',inc:450,w:20,h:1.2,d:70,need:64,ox:-12,oz:0},
-    {id:66,x:-160,z:0,cost:3500,label:'West Bridge Rail L',type:'block',mat:'stoneLight',inc:80,w:0.8,h:2.5,d:110,need:65,ox:-12,oz:0},
-    {id:67,x:-160,z:0,cost:3500,label:'West Bridge Rail R',type:'block',mat:'stoneLight',inc:80,w:0.8,h:2.5,d:110,need:66,ox:12,oz:0},
-    {id:68,x:-142,z:0,cost:10000,label:'West Bridge Tower L',type:'custom',mat:'stoneLight',inc:250,w:3.5,h:28,d:3.5,need:67,ox:-9,oz:0,custom:'pylon'},
-    {id:69,x:-178,z:0,cost:10000,label:'West Bridge Tower R',type:'custom',mat:'stoneLight',inc:250,w:3.5,h:28,d:3.5,need:68,ox:9,oz:0,custom:'pylon'},
-    {id:70,x:-160,z:0,cost:6000,label:'West Bridge Cross Beam',type:'block',mat:'stoneLight',inc:150,w:22,h:2,d:2,need:69,ox:-10,oz:0},
+    {id:64,x:-128,z:0,cost:8000,label:'West Bridge Deck',type:'floor',mat:'slate',inc:250,w:20,h:1.2,d:20,need:63,ox:-12,oz:0},
+    {id:65,x:-155,z:0,cost:12000,label:'West Bridge Span',type:'floor',mat:'slate',inc:450,w:54,h:1.2,d:20,need:64,ox:-12,oz:0},
+    {id:66,x:-155,z:-10,cost:3500,label:'West Bridge Rail L',type:'block',mat:'stoneLight',inc:80,w:74,h:2.5,d:0.8,need:65,ox:0,oz:0},
+    {id:67,x:-155,z:10,cost:3500,label:'West Bridge Rail R',type:'block',mat:'stoneLight',inc:80,w:74,h:2.5,d:0.8,need:66,ox:0,oz:0},
+    {id:68,x:-135,z:0,cost:10000,label:'West Bridge Tower L',type:'custom',mat:'stoneLight',inc:250,w:3.5,h:28,d:3.5,need:67,ox:-9,oz:0,custom:'pylon'},
+    {id:69,x:-175,z:0,cost:10000,label:'West Bridge Tower R',type:'custom',mat:'stoneLight',inc:250,w:3.5,h:28,d:3.5,need:68,ox:9,oz:0,custom:'pylon'},
+    {id:70,x:-155,z:0,cost:6000,label:'West Bridge Cross Beam',type:'block',mat:'stoneLight',inc:150,w:3,h:2,d:22,need:69,ox:0,oz:0},
     {id:71,x:-114,z:30,cost:5000,label:'Waterfall Rock',type:'custom',mat:'stone',inc:200,w:6,h:5,d:5,need:70,ox:-10,oz:0,custom:'fireplace'},
     {id:72,x:-114,z:-30,cost:5000,label:'Zen Garden Boulder',type:'custom',mat:'rock',inc:200,w:5,h:3,d:5,need:71,ox:10,oz:0,custom:'fireplace'},
     {id:73,x:60,z:50,cost:3000,label:'Resort Palm East A',type:'palm',mat:'palmGn',inc:40,w:3,h:8,d:3,need:72,ox:8,oz:0},
@@ -384,13 +384,13 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
     {id:90,x:-260,z:24,cost:3000,label:'Bar Stools',type:'custom',mat:'steel',inc:100,w:18,h:2.2,d:2,need:89,ox:0,oz:7,custom:'barstools'},
     {id:91,x:-244,z:0,cost:2000,label:'Restaurant Palm A',type:'palm',mat:'palmGn',inc:40,w:2,h:7,d:2,need:90,ox:6,oz:0},
     {id:92,x:-276,z:0,cost:2000,label:'Restaurant Palm B',type:'palm',mat:'palmGn',inc:40,w:2,h:7,d:2,need:91,ox:-6,oz:0},
-    {id:93,x:0,z:-130,cost:50000,label:'South Bridge Deck',type:'floor',mat:'slate',inc:900,w:20,h:1.2,d:20,need:92,ox:12,oz:0},
-    {id:94,x:0,z:-205,cost:90000,label:'South Bridge Span',type:'floor',mat:'slate',inc:1800,w:20,h:1.2,d:130,need:93,ox:12,oz:0},
-    {id:95,x:0,z:-130,cost:22000,label:'South Bridge Rail L',type:'block',mat:'stoneLight',inc:350,w:0.8,h:2.5,d:150,need:94,ox:-12,oz:0},
-    {id:96,x:0,z:-130,cost:22000,label:'South Bridge Rail R',type:'block',mat:'stoneLight',inc:350,w:0.8,h:2.5,d:150,need:95,ox:12,oz:0},
-    {id:97,x:-8,z:-190,cost:65000,label:'South Bridge Tower L',type:'custom',mat:'stoneLight',inc:1200,w:3.5,h:36,d:3.5,need:96,ox:-9,oz:0,custom:'pylon'},
-    {id:98,x:8,z:-190,cost:65000,label:'South Bridge Tower R',type:'custom',mat:'stoneLight',inc:1200,w:3.5,h:36,d:3.5,need:97,ox:9,oz:0,custom:'pylon'},
-    {id:99,x:0,z:-190,cost:35000,label:'South Bridge Cross Beam',type:'block',mat:'stoneLight',inc:700,w:22,h:2,d:2,need:98,ox:-10,oz:0},
+    {id:93,x:0,z:-128,cost:50000,label:'South Bridge Deck',type:'floor',mat:'slate',inc:900,w:20,h:1.2,d:20,need:92,ox:12,oz:0},
+    {id:94,x:0,z:-185,cost:90000,label:'South Bridge Span',type:'floor',mat:'slate',inc:1800,w:20,h:1.2,d:110,need:93,ox:12,oz:0},
+    {id:95,x:-10,z:-180,cost:22000,label:'South Bridge Rail L',type:'block',mat:'stoneLight',inc:350,w:0.8,h:2.5,d:130,need:94,ox:0,oz:0},
+    {id:96,x:10,z:-180,cost:22000,label:'South Bridge Rail R',type:'block',mat:'stoneLight',inc:350,w:0.8,h:2.5,d:130,need:95,ox:0,oz:0},
+    {id:97,x:0,z:-165,cost:65000,label:'South Bridge Tower L',type:'custom',mat:'stoneLight',inc:1200,w:3.5,h:36,d:3.5,need:96,ox:-12,oz:0,custom:'pylon'},
+    {id:98,x:0,z:-205,cost:65000,label:'South Bridge Tower R',type:'custom',mat:'stoneLight',inc:1200,w:3.5,h:36,d:3.5,need:97,ox:12,oz:0,custom:'pylon'},
+    {id:99,x:0,z:-185,cost:35000,label:'South Bridge Cross Beam',type:'block',mat:'stoneLight',inc:700,w:22,h:2,d:2,need:98,ox:0,oz:0},
     {id:100,x:0,z:-380,cost:250000,label:'Mountain Lodge Base',type:'floor',mat:'concrete',inc:6000,w:100,h:1,d:100,need:99,ox:0,oz:-58},
     {id:101,x:0,z:-400,cost:100000,label:'Lodge Structure',type:'wall',mat:'oakDk',inc:3000,w:50,h:14,d:50,need:100,ox:30,oz:0,dw:7,dh:9},
     {id:102,x:0,z:-400,cost:55000,label:'Lodge Interior Floor',type:'floor',mat:'walnut',inc:1200,w:48,h:0.3,d:48,need:101,ox:0,oz:0},
@@ -451,15 +451,16 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   }
 
   function getGroundY(x: number, z: number) {
-    for (const isl of ISLANDS) {
-      const dx = x - isl.cx, dz = z - isl.cz;
-      if (Math.sqrt(dx * dx + dz * dz) < isl.r + 2) return isl.h;
-    }
+    // Check bridges first (they may overlap with island edge zones)
     for (const st of STEPS) {
       if (!st.bought) continue;
       if (st.type === 'floor' && (st.label.includes('Bridge') || st.label.includes('Span') || st.label.includes('Deck'))) {
         if (x > st.x - st.w / 2 && x < st.x + st.w / 2 && z > st.z - st.d / 2 && z < st.z + st.d / 2) return 4;
       }
+    }
+    for (const isl of ISLANDS) {
+      const dx = x - isl.cx, dz = z - isl.cz;
+      if (Math.sqrt(dx * dx + dz * dz) < isl.r + 2) return isl.h;
     }
     return -2;
   }
@@ -594,6 +595,125 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
     promenade.rotation.x = -Math.PI / 2; promenade.position.set(0, 4.08, 0); scene.add(promenade);
   }
 
+  function buildEnvironment() {
+    // Clouds
+    const cloudMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 1, transparent: true, opacity: 0.7 });
+    for (let i = 0; i < 18; i++) {
+      const cg = new THREE.Group();
+      const count = 3 + Math.floor(Math.random() * 4);
+      for (let j = 0; j < count; j++) {
+        const s = 8 + Math.random() * 16;
+        const puff = new THREE.Mesh(new THREE.SphereGeometry(s, 8, 6), cloudMat);
+        puff.position.set(j * s * 0.8 - count * 3, Math.random() * 4, Math.random() * 6 - 3);
+        puff.scale.y = 0.4 + Math.random() * 0.2;
+        cg.add(puff);
+      }
+      cg.position.set(-800 + Math.random() * 1600, 120 + Math.random() * 80, -800 + Math.random() * 1600);
+      scene.add(cg);
+    }
+
+    // Coral reef under main island
+    const coralColors = [0xe04060, 0xf08040, 0xd060a0, 0x40a0c0, 0xa060e0];
+    for (let i = 0; i < 24; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const dist = 125 + Math.random() * 30;
+      const cx = Math.cos(ang) * dist, cz = Math.sin(ang) * dist;
+      const c = new THREE.Mesh(
+        new THREE.DodecahedronGeometry(1.2 + Math.random() * 2.5, 1),
+        new THREE.MeshStandardMaterial({ color: coralColors[Math.floor(Math.random() * coralColors.length)], roughness: 0.8 })
+      );
+      c.position.set(cx, -1.2 - Math.random() * 1.5, cz);
+      c.rotation.set(Math.random(), Math.random(), Math.random());
+      scene.add(c);
+    }
+
+    // Dock / pier on main island south
+    const dockMat = M.oakMd;
+    const dock = new THREE.Mesh(new THREE.BoxGeometry(6, 0.3, 20), dockMat);
+    dock.position.set(80, 3.5, 80); dock.receiveShadow = true; dock.castShadow = true; scene.add(dock);
+    for (let i = 0; i < 5; i++) {
+      const pile = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.25, 6, 8), M.oakDk);
+      pile.position.set(80 + (i % 2 === 0 ? -2.5 : 2.5), 1.5, 72 + i * 4); pile.castShadow = true; scene.add(pile);
+    }
+    // Rope on dock posts
+    [72, 88].forEach(zz => {
+      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 2.5, 6), M.oakDk);
+      post.position.set(83, 4.75, zz); scene.add(post);
+      const postB = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 2.5, 6), M.oakDk);
+      postB.position.set(77, 4.75, zz); scene.add(postB);
+    });
+
+    // Flower beds on main island
+    const flowerColors = [0xff4488, 0xff8844, 0xffcc22, 0xaa44ff, 0xff2244];
+    for (let i = 0; i < 40; i++) {
+      const ang = (i / 40) * Math.PI * 2;
+      const dist = 55 + Math.sin(i * 2.7) * 8;
+      const fx = Math.cos(ang) * dist, fz = Math.sin(ang) * dist;
+      const flower = new THREE.Mesh(
+        new THREE.SphereGeometry(0.3 + Math.random() * 0.4, 6, 5),
+        new THREE.MeshStandardMaterial({ color: flowerColors[i % flowerColors.length], roughness: 0.9 })
+      );
+      flower.position.set(fx, 4.2 + Math.random() * 0.3, fz); scene.add(flower);
+      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.04, 0.5, 4), M.palmGn);
+      stem.position.set(fx, 4.05, fz); scene.add(stem);
+    }
+
+    // Lanterns along paths
+    for (let i = -3; i <= 3; i++) {
+      if (i === 0) continue;
+      [-6, 6].forEach(ox => {
+        const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.08, 3.5, 6), M.darkMet);
+        pole.position.set(ox, 5.75, i * 10); scene.add(pole);
+        const lantern = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.7, 0.5), new THREE.MeshStandardMaterial({ color: 0xfff0c0, emissive: 0xffe090, emissiveIntensity: 0.5, roughness: 0.4 }));
+        lantern.position.set(ox, 7.6, i * 10); scene.add(lantern);
+      });
+    }
+
+    // Stepping stones / garden rocks on pool island
+    for (let i = 0; i < 12; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const dist = 30 + Math.random() * 55;
+      const rx = 260 + Math.cos(ang) * dist, rz = Math.sin(ang) * dist;
+      const rock = new THREE.Mesh(
+        new THREE.DodecahedronGeometry(0.8 + Math.random() * 1.5, 0),
+        new THREE.MeshStandardMaterial({ color: 0x908880, roughness: 0.95 })
+      );
+      rock.position.set(rx, 3.8, rz); rock.scale.y = 0.4;
+      rock.rotation.y = Math.random() * Math.PI; scene.add(rock);
+    }
+
+    // Seagulls (simple cross shapes in the sky)
+    for (let i = 0; i < 8; i++) {
+      const bird = new THREE.Group();
+      const wing1 = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.05, 0.2), new THREE.MeshStandardMaterial({ color: 0xf8f8f8 }));
+      wing1.rotation.z = 0.15; bird.add(wing1);
+      const wing2 = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.05, 0.2), new THREE.MeshStandardMaterial({ color: 0xf8f8f8 }));
+      wing2.rotation.z = -0.15; wing2.position.x = 1.1; bird.add(wing2);
+      const wing3 = wing1.clone(); wing3.position.x = -1.1; wing3.rotation.z = -0.15; bird.add(wing3);
+      bird.position.set(-200 + Math.random() * 400, 60 + Math.random() * 40, -200 + Math.random() * 400);
+      bird.rotation.y = Math.random() * Math.PI * 2;
+      scene.add(bird);
+    }
+
+    // Benches on main island promenade
+    for (let i = 0; i < 6; i++) {
+      const ang = (i / 6) * Math.PI * 2 + 0.5;
+      const bx = Math.cos(ang) * 100, bz = Math.sin(ang) * 100;
+      const bench = new THREE.Group();
+      const seat = new THREE.Mesh(new THREE.BoxGeometry(3, 0.12, 1), M.oakMd);
+      seat.position.y = 0.7; bench.add(seat);
+      const back = new THREE.Mesh(new THREE.BoxGeometry(3, 0.8, 0.1), M.oakMd);
+      back.position.set(0, 1.1, -0.45); bench.add(back);
+      [[-1.2, 0.35], [1.2, 0.35]].forEach(([lx, ly]) => {
+        const leg = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.7, 0.8), M.darkMet);
+        leg.position.set(lx, ly, 0); bench.add(leg);
+      });
+      bench.position.set(bx, 4, bz);
+      bench.rotation.y = ang + Math.PI / 2;
+      scene.add(bench);
+    }
+  }
+
   function buildWall(grp: THREE.Group, st: any) {
     const mat = getMat(st.mat); const isZ = st.w > st.d;
     const len = isZ ? st.w : st.d, thk = isZ ? st.d : st.w;
@@ -645,7 +765,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
       case 'chandeliers': [-18, 0, 18].forEach(cx => [-18, 0, 18].forEach(cz => { add(C(0.03, 1.4), M.brass, cx, 6.6, cz); add(new THREE.CylinderGeometry(0.55, 0.55, 0.28, 14), M.brass, cx, 5.8, cz); add(S(0.7, 14), M.goldLt, cx, 5.6, cz); for (let a = 0; a < 6; a++) { const ang2 = a * Math.PI / 3; const arm = add(B(0.85, 0.03, 0.06), M.brass, cx + Math.cos(ang2) * 0.44, 5.6, cz + Math.sin(ang2) * 0.44); arm.rotation.y = ang2; } })); break;
       case 'bedframe': add(B(st.w, 0.28, st.d), mat, 0, 0.14, 0); add(B(st.w, st.h * 2.8, 0.22), mat, 0, st.h * 1.4, -st.d / 2 + 0.13); add(B(st.w - 0.5, st.h * 2.2, 0.1), M.navyFab, 0, st.h * 1.22, -st.d / 2 + 0.27); add(B(st.w, st.h * 0.9, 0.18), mat, 0, st.h * 0.45, st.d / 2 - 0.09); [-st.w / 2 + 0.1, st.w / 2 - 0.1].forEach(ox => add(B(0.2, 0.18, st.d), mat, ox, 0.32, 0)); [[-st.w / 2 + 0.17, -st.d / 2 + 0.17], [st.w / 2 - 0.17, -st.d / 2 + 0.17], [-st.w / 2 + 0.17, st.d / 2 - 0.17], [st.w / 2 - 0.17, st.d / 2 - 0.17]].forEach(([lx, lz]) => add(B(0.18, 0.32, 0.18), mat, lx, 0.16, lz)); addColl(st.x, st.z, st.w, st.h * 3, st.d); break;
       case 'mattress': add(B(st.w, st.h, st.d), M.linen, 0, 0.4 + st.h / 2, 0); add(B(st.w + 0.04, 0.04, st.d + 0.04), M.cream, 0, 0.4 + st.h + 0.02, 0); addColl(st.x, st.z, st.w, 0.4 + st.h * 1.5, st.d); break;
-      case 'pillows': [-2.8, -0.95, 0.95, 2.8].forEach(ox => { add(B(1.7, 0.52, 1.12), M.ivory, ox, 2.4 + 0.26, 0); add(B(1.5, 0.04, 0.04), M.cream, ox, 2.4 + 0.52, 0); }); break;
+      case 'pillows': [-2.8, -0.95, 0.95, 2.8].forEach(ox => { add(B(1.7, 0.42, 1.12), M.ivory, ox, 1.52, 0); add(B(1.5, 0.04, 0.04), M.cream, ox, 1.74, 0); }); break;
       case 'nightstand': add(B(st.w, st.h, st.d), mat, 0, st.h / 2, 0); add(B(st.w + 0.06, 0.06, st.d + 0.06), M.marble, 0, st.h + 0.03, 0); add(B(st.w - 0.3, 0.32, 0.06), M.oakLt, 0, st.h / 2, st.d / 2 + 0.04); add(S(0.05, 6), M.brass, 0, st.h / 2, st.d / 2 + 0.1); addColl(st.x, st.z, st.w, st.h + 0.06, st.d); break;
       case 'lamp': add(C(0.05, st.h * 0.64), M.brass, 0, st.h * 0.32, 0); add(S(0.1, 8), M.brass, 0, 0.08, 0); add(new THREE.ConeGeometry(0.36, 0.42, 14, 1, true), new THREE.MeshStandardMaterial({ color: 0xf0e8d0, roughness: 0.9, side: THREE.DoubleSide }), 0, st.h * 0.76, 0); addColl(st.x, st.z, 0.4, st.h, 0.4); break;
       case 'tv': add(B(st.w, st.h, 0.1), M.black, 0, st.h / 2, 0); add(B(st.w - 0.28, st.h - 0.28, 0.02), M.charcoal, 0, st.h / 2, 0.06); add(B(1.4, 0.28, 0.28), M.darkMet, 0, st.h / 2, 0.18); addColl(st.x, st.z, st.w, st.h, 0.18); break;
