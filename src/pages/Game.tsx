@@ -886,6 +886,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
 
   buildIslands();
   buildPaths();
+  buildEnvironment();
   gpsGrp = new THREE.Group(); gpsGrp.renderOrder = 999; scene.add(gpsGrp);
   player = buildPlayer(); player.position.set(0, 4, 30); scene.add(player);
 
