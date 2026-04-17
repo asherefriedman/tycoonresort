@@ -1102,6 +1102,9 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
       window.removeEventListener('mouseup', onMouseUp);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', onResize);
+      ren.domElement.removeEventListener('touchstart', onTouchStart);
+      ren.domElement.removeEventListener('touchmove', onTouchMove);
+      ren.domElement.removeEventListener('touchend', onTouchEnd);
       container.removeEventListener('contextmenu', onContextMenu);
       ren.dispose();
       if (container.contains(ren.domElement)) container.removeChild(ren.domElement);
