@@ -121,7 +121,7 @@ const Game = () => {
           <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 8 }}>{cloudSaveInfo}</div>
 
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center", marginTop: 24 }}>
-            {[["WASD", "Move"], ["Space", "Jump"], ["E", "Buy"], ["Mouse", "Camera"]].map(([k, label]) => (
+            {[["WASD", "Move"], ["Space", "Jump"], ["E", "Buy"], ["Q/E", "Rotate"], ["Drag", "Look"]].map(([k, label]) => (
               <div key={label} style={{ background: "rgba(255,255,255,0.08)", borderRadius: 8, padding: "6px 14px", color: "rgba(255,255,255,0.7)", fontSize: 12, display: "flex", alignItems: "center", gap: 6 }}>
                 <kbd style={{ background: "rgba(255,255,255,0.15)", borderRadius: 4, padding: "2px 7px", fontFamily: "monospace", fontSize: 11, fontWeight: 700 }}>{k}</kbd>
                 {label}
