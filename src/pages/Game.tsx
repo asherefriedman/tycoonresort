@@ -1098,7 +1098,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
     if (activePad) {
       const d = player.position.distanceTo(activePad.position);
       const afford = wallet >= (activePad as any).stepData.cost;
-      nearPad = d < 7;
+      nearPad = d < 10; // larger interaction radius — easier to reach
       ui.setShowBuyPrompt(nearPad && afford);
       if (nearPad && afford && KEYS['e']) { KEYS['e'] = false; doBuy((activePad as any).stepData); }
     } else { ui.setShowBuyPrompt(false); }
