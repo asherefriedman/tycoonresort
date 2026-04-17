@@ -852,7 +852,10 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
       const px = parent ? parent.x + (next.ox || 0) : next.x + (next.ox || 0);
       const pz = parent ? parent.z + (next.oz || 0) : next.z + (next.oz || 0);
       const baseY = getBaseY(next);
-      const py = baseY + (parent && parent.type !== 'floor' && parent.h > 0.5 ? parent.h : 0) + PAD_FLOAT;
+      // Pad height: only stack on parent if parent is short and walkable.
+      // Tall parents (towers, walls, palms) would put pad out of reach — keep at ground level.
+      const stackOnParent = parent && parent.type !== 'floor' && parent.type !== 'wall' && parent.type !== 'palm' && parent.h > 0.5 && parent.h <= 3.5;
+      const py = baseY + (stackOnParent ? parent.h : 0) + PAD_FLOAT;
       // Roblox-style sparkle pad: gold disk + tall beacon column for visibility
       const padGroup = new THREE.Group();
       const disk = new THREE.Mesh(
