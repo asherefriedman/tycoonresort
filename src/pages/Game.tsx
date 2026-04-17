@@ -121,7 +121,7 @@ const Game = () => {
           <div style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", marginTop: 8 }}>{cloudSaveInfo}</div>
 
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center", marginTop: 24 }}>
-            {[["WASD", "Move"], ["Space", "Jump"], ["E", "Buy"], ["Mouse", "Camera"]].map(([k, label]) => (
+            {[["WASD", "Move"], ["Space", "Jump"], ["E", "Buy"], ["Q/E", "Rotate"], ["Drag", "Look"]].map(([k, label]) => (
               <div key={label} style={{ background: "rgba(255,255,255,0.08)", borderRadius: 8, padding: "6px 14px", color: "rgba(255,255,255,0.7)", fontSize: 12, display: "flex", alignItems: "center", gap: 6 }}>
                 <kbd style={{ background: "rgba(255,255,255,0.15)", borderRadius: 4, padding: "2px 7px", fontFamily: "monospace", fontSize: 11, fontWeight: 700 }}>{k}</kbd>
                 {label}
@@ -248,7 +248,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   let insideRoom = '';
   const ROOMS: any[] = [];
   let wallet = 500, income = 0;
-  let vspeed = 0, hspeed = 0, jumping = false;
+  let vspeed = 0, jumping = false;
   let gameRunning = true, nearPad = false;
   let currentBaseY = 0;
   let activePad: any = null;
@@ -257,10 +257,11 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   let gpsGrp: THREE.Group;
   let M: Record<string, THREE.MeshStandardMaterial> = {};
 
-  // Mouse orbit camera
+  // Mouse orbit camera (Roblox-style: hold right OR left mouse to rotate)
   let camYaw = Math.PI; // horizontal angle
   let camPitch = 0.35; // vertical angle (radians, 0=level, positive=above)
-  let isRightMouseDown = false;
+  let isMouseDragging = false;
+  let mouseInvertY = false; // Roblox default
 
   // Roblox-style plastic material
   const s = (c: number, r = 0.45, m = 0.05) => new THREE.MeshStandardMaterial({ color: c, roughness: r, metalness: m });
@@ -852,13 +853,27 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
       const pz = parent ? parent.z + (next.oz || 0) : next.z + (next.oz || 0);
       const baseY = getBaseY(next);
       const py = baseY + (parent && parent.type !== 'floor' && parent.h > 0.5 ? parent.h : 0) + PAD_FLOAT;
-      // Roblox-style sparkle pad
-      const pad = new THREE.Mesh(
+      // Roblox-style sparkle pad: gold disk + tall beacon column for visibility
+      const padGroup = new THREE.Group();
+      const disk = new THREE.Mesh(
         new THREE.CylinderGeometry(2.4, 2.4, 0.3, 16),
-        new THREE.MeshStandardMaterial({ color: 0xffd700, emissive: 0xffa000, emissiveIntensity: 0.5, transparent: true, opacity: 0.9, roughness: 0.2, metalness: 0.3 })
+        new THREE.MeshStandardMaterial({ color: 0xffd700, emissive: 0xffa000, emissiveIntensity: 0.6, transparent: true, opacity: 0.95, roughness: 0.2, metalness: 0.3 })
       );
-      pad.position.set(px, py, pz); (pad as any).stepData = next;
-      scene.add(pad); padList.push(pad); activePad = pad;
+      padGroup.add(disk);
+      // Tall light beacon so player can spot it from anywhere
+      const beacon = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.5, 0.5, 40, 8, 1, true),
+        new THREE.MeshBasicMaterial({ color: 0xffe040, transparent: true, opacity: 0.25, side: THREE.DoubleSide, depthWrite: false })
+      );
+      beacon.position.y = 20; padGroup.add(beacon);
+      // Floating arrow on top
+      const arrow = new THREE.Mesh(
+        new THREE.ConeGeometry(0.8, 1.6, 6),
+        new THREE.MeshStandardMaterial({ color: 0xffe040, emissive: 0xffa000, emissiveIntensity: 0.8 })
+      );
+      arrow.position.y = 4; arrow.rotation.x = Math.PI; padGroup.add(arrow);
+      padGroup.position.set(px, py, pz); (padGroup as any).stepData = next;
+      scene.add(padGroup); padList.push(padGroup); activePad = padGroup;
       ui.setNextLabel(next.label);
       ui.setNextCost(next.cost === 0 ? 'FREE' : fmt(next.cost));
     } else {
@@ -943,17 +958,44 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   const onKeyUp = (e: KeyboardEvent) => { KEYS[e.key.toLowerCase()] = false; };
 
   const onMouseDown = (e: MouseEvent) => {
-    if (e.button === 2) { isRightMouseDown = true; e.preventDefault(); }
-  };
-  const onMouseUp = (e: MouseEvent) => {
-    if (e.button === 2) isRightMouseDown = false;
-  };
-  const onMouseMove = (e: MouseEvent) => {
-    if (isRightMouseDown) {
-      camYaw -= e.movementX * 0.004;
-      camPitch = Math.max(-0.2, Math.min(1.2, camPitch + e.movementY * 0.004));
+    // Roblox: right-click OR middle-click to rotate camera
+    if (e.button === 2 || e.button === 1 || e.button === 0) {
+      // Only start drag if click is on the game canvas (not UI overlays)
+      const target = e.target as HTMLElement;
+      if (target === ren.domElement) {
+        isMouseDragging = true;
+        if (e.button === 2) e.preventDefault();
+      }
     }
   };
+  const onMouseUp = (_e: MouseEvent) => {
+    isMouseDragging = false;
+  };
+  const onMouseMove = (e: MouseEvent) => {
+    if (isMouseDragging) {
+      camYaw -= e.movementX * 0.005;
+      const dy = mouseInvertY ? -e.movementY : e.movementY;
+      camPitch = Math.max(-0.3, Math.min(1.3, camPitch + dy * 0.005));
+    }
+  };
+  // Touch support for mobile (drag to rotate)
+  let touchStartX = 0, touchStartY = 0;
+  const onTouchStart = (e: TouchEvent) => {
+    if (e.touches.length === 1) {
+      touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY;
+      isMouseDragging = true;
+    }
+  };
+  const onTouchMove = (e: TouchEvent) => {
+    if (isMouseDragging && e.touches.length === 1) {
+      const dx = e.touches[0].clientX - touchStartX;
+      const dy = e.touches[0].clientY - touchStartY;
+      camYaw -= dx * 0.008;
+      camPitch = Math.max(-0.3, Math.min(1.3, camPitch + dy * 0.008));
+      touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY;
+    }
+  };
+  const onTouchEnd = () => { isMouseDragging = false; };
   const onContextMenu = (e: MouseEvent) => e.preventDefault();
 
   const onResize = () => {
@@ -967,6 +1009,9 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   window.addEventListener('mouseup', onMouseUp);
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('resize', onResize);
+  ren.domElement.addEventListener('touchstart', onTouchStart, { passive: true });
+  ren.domElement.addEventListener('touchmove', onTouchMove, { passive: true });
+  ren.domElement.addEventListener('touchend', onTouchEnd);
   container.addEventListener('contextmenu', onContextMenu);
 
   // Animate — Roblox-style camera-relative movement
@@ -983,6 +1028,12 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
     if (KEYS['s']) moveZ += 1;
     if (KEYS['a']) moveX -= 1;
     if (KEYS['d']) moveX += 1;
+
+    // Q/E to rotate camera (Roblox-style arrow rotation)
+    if (KEYS['q']) camYaw += 1.6 * dt;
+    if (KEYS['e'] && !nearPad) camYaw -= 1.6 * dt;
+    // Keep mouseInvertY referenced (toggle could be added later)
+    void mouseInvertY;
 
     // Normalize diagonal movement
     const moveLen = Math.sqrt(moveX * moveX + moveZ * moveZ);
@@ -1047,7 +1098,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
     if (activePad) {
       const d = player.position.distanceTo(activePad.position);
       const afford = wallet >= (activePad as any).stepData.cost;
-      nearPad = d < 7;
+      nearPad = d < 10; // larger interaction radius — easier to reach
       ui.setShowBuyPrompt(nearPad && afford);
       if (nearPad && afford && KEYS['e']) { KEYS['e'] = false; doBuy((activePad as any).stepData); }
     } else { ui.setShowBuyPrompt(false); }
@@ -1071,6 +1122,9 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
       window.removeEventListener('mouseup', onMouseUp);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', onResize);
+      ren.domElement.removeEventListener('touchstart', onTouchStart);
+      ren.domElement.removeEventListener('touchmove', onTouchMove);
+      ren.domElement.removeEventListener('touchend', onTouchEnd);
       container.removeEventListener('contextmenu', onContextMenu);
       ren.dispose();
       if (container.contains(ren.domElement)) container.removeChild(ren.domElement);
