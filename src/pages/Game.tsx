@@ -944,17 +944,44 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   const onKeyUp = (e: KeyboardEvent) => { KEYS[e.key.toLowerCase()] = false; };
 
   const onMouseDown = (e: MouseEvent) => {
-    if (e.button === 2) { isRightMouseDown = true; e.preventDefault(); }
-  };
-  const onMouseUp = (e: MouseEvent) => {
-    if (e.button === 2) isRightMouseDown = false;
-  };
-  const onMouseMove = (e: MouseEvent) => {
-    if (isRightMouseDown) {
-      camYaw -= e.movementX * 0.004;
-      camPitch = Math.max(-0.2, Math.min(1.2, camPitch + e.movementY * 0.004));
+    // Roblox: right-click OR middle-click to rotate camera
+    if (e.button === 2 || e.button === 1 || e.button === 0) {
+      // Only start drag if click is on the game canvas (not UI overlays)
+      const target = e.target as HTMLElement;
+      if (target === ren.domElement) {
+        isMouseDragging = true;
+        if (e.button === 2) e.preventDefault();
+      }
     }
   };
+  const onMouseUp = (_e: MouseEvent) => {
+    isMouseDragging = false;
+  };
+  const onMouseMove = (e: MouseEvent) => {
+    if (isMouseDragging) {
+      camYaw -= e.movementX * 0.005;
+      const dy = mouseInvertY ? -e.movementY : e.movementY;
+      camPitch = Math.max(-0.3, Math.min(1.3, camPitch + dy * 0.005));
+    }
+  };
+  // Touch support for mobile (drag to rotate)
+  let touchStartX = 0, touchStartY = 0;
+  const onTouchStart = (e: TouchEvent) => {
+    if (e.touches.length === 1) {
+      touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY;
+      isMouseDragging = true;
+    }
+  };
+  const onTouchMove = (e: TouchEvent) => {
+    if (isMouseDragging && e.touches.length === 1) {
+      const dx = e.touches[0].clientX - touchStartX;
+      const dy = e.touches[0].clientY - touchStartY;
+      camYaw -= dx * 0.008;
+      camPitch = Math.max(-0.3, Math.min(1.3, camPitch + dy * 0.008));
+      touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY;
+    }
+  };
+  const onTouchEnd = () => { isMouseDragging = false; };
   const onContextMenu = (e: MouseEvent) => e.preventDefault();
 
   const onResize = () => {
@@ -968,6 +995,9 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   window.addEventListener('mouseup', onMouseUp);
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('resize', onResize);
+  ren.domElement.addEventListener('touchstart', onTouchStart, { passive: true });
+  ren.domElement.addEventListener('touchmove', onTouchMove, { passive: true });
+  ren.domElement.addEventListener('touchend', onTouchEnd);
   container.addEventListener('contextmenu', onContextMenu);
 
   // Animate — Roblox-style camera-relative movement
