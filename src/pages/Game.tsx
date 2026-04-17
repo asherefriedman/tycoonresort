@@ -248,7 +248,7 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   let insideRoom = '';
   const ROOMS: any[] = [];
   let wallet = 500, income = 0;
-  let vspeed = 0, hspeed = 0, jumping = false;
+  let vspeed = 0, jumping = false;
   let gameRunning = true, nearPad = false;
   let currentBaseY = 0;
   let activePad: any = null;
@@ -853,13 +853,27 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
       const pz = parent ? parent.z + (next.oz || 0) : next.z + (next.oz || 0);
       const baseY = getBaseY(next);
       const py = baseY + (parent && parent.type !== 'floor' && parent.h > 0.5 ? parent.h : 0) + PAD_FLOAT;
-      // Roblox-style sparkle pad
-      const pad = new THREE.Mesh(
+      // Roblox-style sparkle pad: gold disk + tall beacon column for visibility
+      const padGroup = new THREE.Group();
+      const disk = new THREE.Mesh(
         new THREE.CylinderGeometry(2.4, 2.4, 0.3, 16),
-        new THREE.MeshStandardMaterial({ color: 0xffd700, emissive: 0xffa000, emissiveIntensity: 0.5, transparent: true, opacity: 0.9, roughness: 0.2, metalness: 0.3 })
+        new THREE.MeshStandardMaterial({ color: 0xffd700, emissive: 0xffa000, emissiveIntensity: 0.6, transparent: true, opacity: 0.95, roughness: 0.2, metalness: 0.3 })
       );
-      pad.position.set(px, py, pz); (pad as any).stepData = next;
-      scene.add(pad); padList.push(pad); activePad = pad;
+      padGroup.add(disk);
+      // Tall light beacon so player can spot it from anywhere
+      const beacon = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.5, 0.5, 40, 8, 1, true),
+        new THREE.MeshBasicMaterial({ color: 0xffe040, transparent: true, opacity: 0.25, side: THREE.DoubleSide, depthWrite: false })
+      );
+      beacon.position.y = 20; padGroup.add(beacon);
+      // Floating arrow on top
+      const arrow = new THREE.Mesh(
+        new THREE.ConeGeometry(0.8, 1.6, 6),
+        new THREE.MeshStandardMaterial({ color: 0xffe040, emissive: 0xffa000, emissiveIntensity: 0.8 })
+      );
+      arrow.position.y = 4; arrow.rotation.x = Math.PI; padGroup.add(arrow);
+      padGroup.position.set(px, py, pz); (padGroup as any).stepData = next;
+      scene.add(padGroup); padList.push(padGroup); activePad = padGroup;
       ui.setNextLabel(next.label);
       ui.setNextCost(next.cost === 0 ? 'FREE' : fmt(next.cost));
     } else {
