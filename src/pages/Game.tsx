@@ -1015,6 +1015,12 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
     if (KEYS['a']) moveX -= 1;
     if (KEYS['d']) moveX += 1;
 
+    // Q/E to rotate camera (Roblox-style arrow rotation)
+    if (KEYS['q']) camYaw += 1.6 * dt;
+    if (KEYS['e'] && !nearPad) camYaw -= 1.6 * dt;
+    // Keep mouseInvertY referenced (toggle could be added later)
+    void mouseInvertY;
+
     // Normalize diagonal movement
     const moveLen = Math.sqrt(moveX * moveX + moveZ * moveZ);
     if (moveLen > 0) { moveX /= moveLen; moveZ /= moveLen; }
