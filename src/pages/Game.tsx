@@ -257,10 +257,11 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
   let gpsGrp: THREE.Group;
   let M: Record<string, THREE.MeshStandardMaterial> = {};
 
-  // Mouse orbit camera
+  // Mouse orbit camera (Roblox-style: hold right OR left mouse to rotate)
   let camYaw = Math.PI; // horizontal angle
   let camPitch = 0.35; // vertical angle (radians, 0=level, positive=above)
-  let isRightMouseDown = false;
+  let isMouseDragging = false;
+  let mouseInvertY = false; // Roblox default
 
   // Roblox-style plastic material
   const s = (c: number, r = 0.45, m = 0.05) => new THREE.MeshStandardMaterial({ color: c, roughness: r, metalness: m });
