@@ -438,6 +438,16 @@ function initGameEngine(container: HTMLDivElement, pendingSave: any, doLoad: boo
     if (!testAABB(nx, oy, oz)) { player.position.x = nx; return; }
     if (!testAABB(ox, oy, nz)) { player.position.z = nz; return; }
     if (!testAABB(ox, ny, oz)) { player.position.y = ny; return; }
+    // Step up small obstacles (loungers, curbs)
+    for (const stepUp of [0.7, 1.2, 1.8]) {
+      if (!testAABB(nx, oy + stepUp, nz)) { player.position.set(nx, oy + stepUp, nz); return; }
+    }
+    // Unstick: if already stuck inside something, lift the player out
+    if (testAABB(ox, oy, oz)) {
+      for (let lift = 0.5; lift <= 6; lift += 0.5) {
+        if (!testAABB(ox, oy + lift, oz)) { player.position.set(ox, oy + lift, oz); vspeed = 0; jumping = false; return; }
+      }
+    }
     player.position.set(ox, oy, oz);
     if (ny !== oy) vspeed = 0;
   }
